@@ -41,6 +41,8 @@ button:active {
 }
 
 .error {
+  margin-bottom: 10px;
   color: red;
   display: none;
+  text-decoration-line: underline;
 }

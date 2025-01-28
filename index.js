@@ -1,11 +1,14 @@
-function validateFields() {
+
+function onChangeEmail() {
   toggleButtonDisable();
   toggleEmailErrors();
-  togglePasswordErrors()
-
+}
+function onChangePassword() {
+  toggleButtonDisable();
+  togglePasswordErrors();
 }
 function isEmailValid() {
-  const email = document.getElementById("email").value;
+  const email = form.email();
   if (!email) {
     return false;
   }
@@ -13,7 +16,7 @@ function isEmailValid() {
 }
 
 function isPasswordValid() {
-  const password = document.getElementById("password").value;
+  const password = form.password();
   if (!password) {
     return false;
   }
@@ -26,44 +29,46 @@ function validateEmail(email) {
 }
 
 function toggleEmailErrors() {
-  const email = document.getElementById("email").value;
-  if (!email) {
-    document.getElementById('email-required-error').style.display = "block";
-  } else {
-    document.getElementById('email-required-error').style.display = "none";
-  }
+  const email = form.email();
+  form.emailRequiredError().display = !email ? "none" : "block";
 
-  if (validateEmail(email)) {
-
-    document.getElementById('email-invalid-error').style.display = "none";
-
-  } else {
-    document.getElementById('email-invalid-error').style.display = "block";
-  }
+  form.emailInvalidError().display = validateEmail(email) ? "none" : "block";
 }
 
 function togglePasswordErrors() {
-  const password = document.getElementById("password").value;
+  const password = form.password();
   if (!password) {
-    document.getElementById('password-required-error').style.display = "block";
+    form.passwordRequiredError().display = "block";
   } else {
-    document.getElementById('password-required-error').style.display = "none";
+    form.passwordRequiredError().display = "none";
   }
 
-  if (password.length > 5) {
-    document.getElementById('password-min-length-error').style.display = "none";
+  if (password.length > 5 || password.length === 0) {
+    form.passwordMinLengthError().display = "none";
   } else {
-    document.getElementById('password-min-length-error').style.display = "block";
+    form.passwordMinLengthError().display = "block";
   }
 }
 
 function toggleButtonDisable() {
   const emailValid = isEmailValid();
-  document.getElementById('recover-password-button').disabled = !emailValid;
+  form.recoverPasswordButton().disabled = !emailValid;
   const passwordValid = isPasswordValid();
-  document.getElementById('login-button').disabled = !emailValid || !passwordValid;
+  form.loginButton().disabled = !emailValid || !passwordValid;
 
   // Pega o valor da senha e do email e caso um dos dois sejam inválidos desabilita os botões
   // Caso os dois sejam validos habilita os botões
 
+}
+
+const form =
+{
+  email: () => document.getElementById("email").value,
+  password: () => document.getElementById("password").value,
+  emailRequiredError: () => document.getElementById("email-required-error"),
+  emailInvalidError: () => document.getElementById("email-invalid-error"),
+  passwordRequiredError: () => document.getElementById("password-required-error"),
+  passwordMinLengthError: () => document.getElementById("password-min-length-error"),
+  recoverPasswordButton: () => document.getElementById("recover-password-button"),
+  loginButton: () => document.getElementById("login-button")
 }
