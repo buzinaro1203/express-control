@@ -7,6 +7,14 @@ function onChangePassword() {
   toggleButtonDisable();
   togglePasswordErrors();
 }
+function login() {
+  window.location.href = 'pages/home/home.html';
+}
+
+function register() {
+  window.location.href = 'pages/register/register.html';
+}
+
 function isEmailValid() {
   const email = form.email();
   if (!email && email.length > 0) {
@@ -26,8 +34,7 @@ function isPasswordValid() {
 function toggleEmailErrors() {
   const email = form.email();
   form.emailRequiredError().style.display = email ? "none" : "block";
-
-
+  
   form.emailInvalidError().style.display = email && !isEmailValid() ? "block" : "none";
 }
 
