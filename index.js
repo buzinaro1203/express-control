@@ -9,7 +9,7 @@ function onChangePassword() {
 }
 function isEmailValid() {
   const email = form.email();
-  if (!email) {
+  if (!email && email.length > 0) {
     return false;
   }
   return validateEmail(email);
@@ -17,7 +17,7 @@ function isEmailValid() {
 
 function isPasswordValid() {
   const password = form.password();
-  if (!password) {
+  if (password.length < 8 && password.length > 0) {
     return false;
   }
   return true;
@@ -27,13 +27,14 @@ function toggleEmailErrors() {
   const email = form.email();
   form.emailRequiredError().style.display = email ? "none" : "block";
 
-  form.emailInvalidError().style.display = validateEmail(email) ? "none" : "block";
+
+  form.emailInvalidError().style.display = email && !isEmailValid() ? "block" : "none";
 }
 
 function togglePasswordErrors() {
   const password = form.password();
   form.passwordRequiredError().style.display = password ? "none" : "block";
-  form.passwordInvalidError().style.display = password.length > 5 || password.length === 0 ? "none" : "block";
+  form.passwordInvalidError().style.display = isPasswordValid() ? "none" : "block";
 }
 
 function toggleButtonDisable() {
