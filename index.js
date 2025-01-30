@@ -1,4 +1,3 @@
-
 function onChangeEmail() {
   toggleButtonDisable();
   toggleEmailErrors();
@@ -8,7 +7,13 @@ function onChangePassword() {
   togglePasswordErrors();
 }
 function login() {
-  window.location.href = 'pages/home/home.html';
+  const email = form.email().value;
+  const password = form.password();
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(response => { console.log(response); window.location.href = 'pages/home/home.html'; })
+    .catch(error => {
+      console.log(error); alert('Email ou senha inválidos');
+    });
 }
 
 function register() {
@@ -34,7 +39,7 @@ function isPasswordValid() {
 function toggleEmailErrors() {
   const email = form.email();
   form.emailRequiredError().style.display = email ? "none" : "block";
-  
+
   form.emailInvalidError().style.display = email && !isEmailValid() ? "block" : "none";
 }
 
@@ -54,6 +59,8 @@ function toggleButtonDisable() {
   // Caso os dois sejam validos habilita os botões
 
 }
+
+
 
 const form =
 {
