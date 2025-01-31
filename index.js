@@ -21,6 +21,37 @@ function login() {
 
     });
 }
+// BUG: THE FUNCTION RECOVERPASSWORD IS NOT WORKING PROPERLY THE FUNCTION IS SENDING THE EMAIL TO THE USER INDEPENDENTLY OF THE EMAIL BEING REGISTERED OR NOT
+function recoverPassword() {
+  showLoading();
+  const email = form.email();
+  firebase.auth().sendPasswordResetEmail(email).then(() => {
+    console.log(email);
+    hideLoading(); alert('Email enviado com sucesso!')
+  })
+    .catch((error) => {
+      hideLoading();
+      alert(getErrorMessage(error.code));
+      console.log(error.code);
+    })
+}
+
+function getErrorMessage(errorCode) {
+  switch (errorCode) {
+    case 'auth/invalid-email':
+      return 'Email inválido';
+    case 'auth/user-not-found':
+      return 'Usuário não encontrado';
+    case 'auth/user-disabled':
+      return 'Usuário desabilitado';
+    case 'auth/email-already-in-use':
+      return 'Email já cadastrado';
+    case 'auth/wrong-password':
+      return 'Senha inválida';
+    default:
+      return 'Erro desconhecido';
+  }
+}
 
 function register() {
 
