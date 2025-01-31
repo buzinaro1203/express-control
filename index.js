@@ -7,17 +7,23 @@ function onChangePassword() {
   togglePasswordErrors();
 }
 function login() {
+  showLoading();
   const email = form.email().value;
   const password = form.password();
   firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(response => { console.log(response); window.location.href = 'pages/home/home.html'; })
+    .then(response => {
+      console.log(response); window.location.href = 'pages/home/home.html';
+      hideLoading();
+    })
     .catch(error => {
+      hideLoading();
       console.log(error); alert('Email ou senha inválidos');
+
     });
 }
 
 function register() {
-  window.location.href = 'pages/register/register.html';
+
 }
 
 function isEmailValid() {
