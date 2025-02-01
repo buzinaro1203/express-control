@@ -57,44 +57,26 @@ function register() {
   window.location.href = 'pages/register/register.html';
 }
 
-function isEmailValid() {
-  const email = form.email();
-  if (!email && email.length > 0) {
-    return false;
-  }
-  return validateEmail(email);
-}
-
-function isPasswordValid() {
-  const password = form.password();
-  if (password.length < 8 && password.length > 0) {
-    return false;
-  }
-  return true;
-}
-
 function toggleEmailErrors() {
   const email = form.email();
   form.emailRequiredError().style.display = email ? "none" : "block";
 
-  form.emailInvalidError().style.display = email && !isEmailValid() ? "block" : "none";
+  form.emailInvalidError().style.display = !email || validateEmail(email) ? "none" : "block";
 }
 
 function togglePasswordErrors() {
   const password = form.password();
   form.passwordRequiredError().style.display = password ? "none" : "block";
-  form.passwordInvalidError().style.display = isPasswordValid() ? "none" : "block";
+  form.passwordMinLengthError().style.display = validatePassword(password) ? "none" : "block";
 }
 
 function toggleButtonDisable() {
-  const emailValid = isEmailValid();
+  const email = form.email();
+  const password = form.password();
+  const emailValid = validateEmail(email);
   form.recoverPasswordButton().disabled = !emailValid;
-  const passwordValid = isPasswordValid();
+  const passwordValid = validatePassword(password);
   form.loginButton().disabled = !emailValid || !passwordValid;
-
-  // Pega o valor da senha e do email e caso um dos dois sejam inválidos desabilita os botões
-  // Caso os dois sejam validos habilita os botões
-
 }
 
 
@@ -103,10 +85,10 @@ const form =
 {
   email: () => document.getElementById("email").value,
   password: () => document.getElementById("password").value,
-  emailRequiredError: () => document.getElementById("email-required-error"),
-  emailInvalidError: () => document.getElementById("email-invalid-error"),
-  passwordRequiredError: () => document.getElementById("password-required-error"),
-  passwordInvalidError: () => document.getElementById("password-min-length-error"),
+  emailRequiredError: () => document.getElementById('emailRequiredError'),
+  emailInvalidError: () => document.getElementById('emailInvalidError'),
+  passwordRequiredError: () => document.getElementById('passwordRequiredError'),
+  passwordMinLengthError: () => document.getElementById('passwordMinLengthError'),
   recoverPasswordButton: () => document.getElementById("recover-password-button"),
   loginButton: () => document.getElementById("login-button")
 }

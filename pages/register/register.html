@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../global.css" />
+    <link rel="stylesheet" href="./register.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../global.css" />
-  <link rel="stylesheet" href="./register.css" />
-  <title>Registrar</title>
-</head>
+    <script src="register.js"></script>
+    <script src="/utils/validation.js"></script>
+    <script src="/utils/loading.js"></script>
+    <title>Registrar</title>
+  </head>
 
-<body class="centralize">
-  <form>
-    <div class="form-group">
-      <div><label for="">Email</label></div>
-      <input type="text" placeholder="seu@email.com" />
-      <div id="email-required-error" class="error">
-        <span>Email é obrigatório</span>
+  <body class="centralize">
+    <form>
+      <!-- Email Input  -->
+      <div class="form-group">
+        <div><label for="">Email</label></div>
+        <input
+          id="email"
+          type="text"
+          placeholder="seu@email.com"
+          onchange="onChangeEmail()"
+        />
+        <div id="emailRequiredError" class="error">
+          <span>Email é obrigatório</span>
+        </div>
+        <div id="emailInvalidError" class="error">
+          <span>Email invalido</span>
+        </div>
       </div>
-      <div id="email-invalid-error" class="error">
-        <span>Email invalido</span>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div><label for="">Senha</label></div>
-      <input type="password" placeholder="Senha" />
-      <div id="passwordRequiredError" class="error">
-        <span>Senha é obrigatório</span>
+      <!-- Password Input -->
+      <div class="form-group">
+        <div><label for="">Senha</label></div>
+        <input
+          id="password"
+          type="password"
+          placeholder="Senha"
+          onchange="onChangePassword()"
+        />
+        <div id="passwordRequiredError" class="error">
+          <span>Senha é obrigatório</span>
+        </div>
+        <div id="passwordMinLengthError" class="error">
+          <span>Minimo 8 caracteres</span>
+        </div>
       </div>
-      <div id="passwordMinLengthError" class="error">
-        <span>Minimo 8 caracteres</span>
+      <!-- Confirm Password Input -->
+      <div class="form-group">
+        <div><label for="">Confirme sua senha</label></div>
+        <input
+          onchange="onchangeConfirmPassword()"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirme sua senha"
+        />
+        <div id="confirmPasswordRequiredError" class="error">
+          <span>É necessário confirmar sua senha</span>
+        </div>
+        <div id="confirmPasswordInvalidError" class="error">
+          <span>As senhas precisam ser iguais</span>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div><label for="">Confirme sua senha</label></div>
-      <input type="password" placeholder="Confirme sua senha" />
-      <div id="confirmPasswordRequiredError" class="error">
-        <span>Senha é obrigatório</span>
+      <div>
+        <button id="registerButton" class="solid-button" disabled>
+          Registrar
+        </button>
       </div>
-      <div id="confirmPasswordInvalidError" class="error">
-        <span>Minimo 8 caracteres</span>
+      <div>
+        <button id="goToLoginButton" class="clear-button">login</button>
       </div>
-    </div>
-    <div>
-      <button class="solid-button" disabled>Registrar</button>
-    </div>
-    <div>
-      <button class="clear-button">login</button>
-    </div>
-  </form>
-</body>
-
+    </form>
+  </body>
 </html>

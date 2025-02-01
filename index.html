@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="global.css" />
     <script src="index.js"></script>
-    <script src="validation.js"></script>
-    <script src="loading.js"></script>
+    <script src="/utils/validation.js"></script>
+    <script src="/utils/loading.js"></script>
   </head>
+
   <body class="centralize">
     <div class="container">
       <form>
@@ -22,10 +23,10 @@
             placeholder="seu@email.com"
             onchange="onChangeEmail()"
           />
-          <div id="email-required-error" class="error">
+          <div id="emailRequiredError" class="error">
             <span>Email é obrigatório</span>
           </div>
-          <div id="email-invalid-error" class="error">
+          <div id="emailInvalidError" class="error">
             <span>Email é invalido</span>
           </div>
         </div>
@@ -38,10 +39,10 @@
             placeholder="senha"
             onchange="onChangePassword()"
           />
-          <div id="password-required-error" class="error">
+          <div id="passwordRequiredError" class="error">
             <span>Senha é obrigatório</span>
           </div>
-          <div id="password-min-length-error" class="error">
+          <div id="passwordMinLengthError" class="error">
             <span>Minimo 8 caracteres</span>
           </div>
         </div>
