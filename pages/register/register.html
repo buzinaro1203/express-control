@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../global.css" />
     <link rel="stylesheet" href="./register.css" />
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCpc6anPfdEbykPEzFuW6_OwzZs-OQXofg",
+        authDomain: "express-control-e7258.firebaseapp.com",
+        projectId: "express-control-e7258",
+        storageBucket: "express-control-e7258.firebasestorage.app",
+        messagingSenderId: "1064577642474",
+        appId: "1:1064577642474:web:b9d1f9eff2a8e8a6d68c93",
+        measurementId: "G-VS85QN7BTK",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
 
     <script src="register.js"></script>
     <script src="/utils/validation.js"></script>
@@ -64,12 +80,25 @@
         </div>
       </div>
       <div>
-        <button id="registerButton" class="solid-button" disabled>
+        <button
+          id="registerButton"
+          type="button"
+          onclick="registerAccount()"
+          class="solid-button"
+          disabled
+        >
           Registrar
         </button>
       </div>
       <div>
-        <button id="goToLoginButton" class="clear-button">login</button>
+        <button
+          type="button"
+          id="goToLoginButton"
+          onclick="goToLogin()"
+          class="clear-button"
+        >
+          login
+        </button>
       </div>
     </form>
   </body>

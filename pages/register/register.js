@@ -11,7 +11,6 @@ function onchangeConfirmPassword() {
   toggleButtonDisable()
 }
 
-
 function toggleEmailErrors() {
   const email = form.email().value;
   form.emailRequiredError().style.display = email ? "none" : "block";
@@ -42,6 +41,25 @@ function toggleButtonDisable() {
   form.registerButton().disabled = !emailValid || !passwordValid || !corfimedPassword;
 }
 
+function registerAccount() {
+  const email = form.email().value;
+  const password = form.password().value;
+  showLoading();
+
+  firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+    hideLoading();
+    alert('Account created successfully');
+
+  })
+    .catch((error) => {
+      hideLoading();
+      alert(error.message);
+    });
+}
+
+function goToLogin() {
+  window.location.href = '../../index.html';
+}
 
 
 
