@@ -1,22 +1,3 @@
-const form =
-{
-  email: () => document.getElementById("email"),
-  password: () => document.getElementById("password"),
-  emailRequiredError: () => document.getElementById('emailRequiredError'),
-  emailInvalidError: () => document.getElementById('emailInvalidError'),
-  passwordRequiredError: () => document.getElementById('passwordRequiredError'),
-  passwordMinLengthError: () => document.getElementById('passwordMinLengthError'),
-  recoverPasswordButton: () => document.getElementById("recover-password-button"),
-  loginButton: () => document.getElementById("login-button")
-}
-
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    window.location.href = 'pages/home/home.html';
-  }
-}
-);
-
 
 function onChangeEmail() {
   toggleButtonDisable();
@@ -26,80 +7,68 @@ function onChangePassword() {
   toggleButtonDisable();
   togglePasswordErrors();
 }
-function login() {
-  showLoading();
-  const email = form.email().value;
-  console.log(email);
-  const password = form.password();
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(() => {
-      window.location.href = 'pages/home/home.html';
-      hideLoading();
-    })
-    .catch(error => {
-      hideLoading();
-      alert(getErrorMessage(error.code));
-
-    });
-}
-// BUG: THE FUNCTION RECOVERPASSWORD IS NOT WORKING PROPERLY THE FUNCTION IS SENDING THE EMAIL TO THE USER INDEPENDENTLY OF THE EMAIL BEING REGISTERED OR NOT
-function recoverPassword() {
-  showLoading();
-  const email = form.email().value;
-  firebase.auth().sendPasswordResetEmail(email).then(() => {
-    console.log(email);
-    hideLoading(); alert('Email enviado com sucesso!')
-  })
-    .catch((error) => {
-      hideLoading();
-      alert(getErrorMessage(error.code));
-      console.log(error.code);
-    })
-}
-
-function getErrorMessage(errorCode) {
-  switch (errorCode) {
-    case 'auth/invalid-email':
-      return 'Email inválido';
-    case 'auth/user-not-found':
-      return 'Usuário não encontrado';
-    case 'auth/user-disabled':
-      return 'Usuário desabilitado';
-    case 'auth/email-already-in-use':
-      return 'Email já cadastrado';
-    case 'auth/wrong-password':
-      return 'Senha inválida';
-    default:
-      return 'Erro desconhecido';
+function isEmailValid() {
+  const email = form.email();
+  if (!email) {
+    return false;
   }
+  return validateEmail(email);
 }
 
-function register() {
-  window.location.href = 'pages/register/register.html';
+function isPasswordValid() {
+  const password = form.password();
+  if (!password) {
+    return false;
+  }
+  return true;
+}
+
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 function toggleEmailErrors() {
-  const email = form.email().value;
-  form.emailRequiredError().style.display = email ? "none" : "block";
+  const email = form.email();
+  form.emailRequiredError().display = !email ? "none" : "block";
 
-  form.emailInvalidError().style.display = !email || validateEmail(email) ? "none" : "block";
+  form.emailInvalidError().display = validateEmail(email) ? "none" : "block";
 }
 
 function togglePasswordErrors() {
   const password = form.password();
-  form.passwordRequiredError().style.display = password ? "none" : "block";
-  form.passwordMinLengthError().style.display = validatePassword(password) ? "none" : "block";
+  if (!password) {
+    form.passwordRequiredError().display = "block";
+  } else {
+    form.passwordRequiredError().display = "none";
+  }
+
+  if (password.length > 5 || password.length === 0) {
+    form.passwordMinLengthError().display = "none";
+  } else {
+    form.passwordMinLengthError().display = "block";
+  }
 }
 
 function toggleButtonDisable() {
-  const email = form.email().value;
-  const password = form.password().value;
-  const emailValid = validateEmail(email);
-  console.log(email, password);
-  const passwordValid = validatePassword(password);
+  const emailValid = isEmailValid();
   form.recoverPasswordButton().disabled = !emailValid;
+  const passwordValid = isPasswordValid();
   form.loginButton().disabled = !emailValid || !passwordValid;
+
+  // Pega o valor da senha e do email e caso um dos dois sejam inválidos desabilita os botões
+  // Caso os dois sejam validos habilita os botões
+
 }
 
-
-
+const form =
+{
+  email: () => document.getElementById("email").value,
+  password: () => document.getElementById("password").value,
+  emailRequiredError: () => document.getElementById("email-required-error"),
+  emailInvalidError: () => document.getElementById("email-invalid-error"),
+  passwordRequiredError: () => document.getElementById("password-required-error"),
+  passwordMinLengthError: () => document.getElementById("password-min-length-error"),
+  recoverPasswordButton: () => document.getElementById("recover-password-button"),
+  loginButton: () => document.getElementById("login-button")
+}
