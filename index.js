@@ -1,8 +1,35 @@
+const form =
+{
+  email: () => document.getElementById("email"),
+  password: () => document.getElementById("password"),
+  emailRequiredError: () => document.getElementById('emailRequiredError'),
+  emailInvalidError: () => document.getElementById('emailInvalidError'),
+  passwordRequiredError: () => document.getElementById('passwordRequiredError'),
+  passwordMinLengthError: () => document.getElementById('passwordMinLengthError'),
+  recoverPasswordButton: () => document.getElementById("recover-password-button"),
+  loginButton: () => document.getElementById("login-button")
+}
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    window.location.href = 'pages/home/home.html';
+  }
+}
+);
+
+
+function onChangeEmail() {
+  toggleButtonDisable();
+  toggleEmailErrors();
+}
+function onChangePassword() {
+  toggleButtonDisable();
+  togglePasswordErrors();
+}
 function login() {
   showLoading();
   const email = form.email().value;
-  console.log(email);
-  const password = form.password();
+  const password = form.password().value;
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
       window.location.href = 'pages/home/home.html';
@@ -19,13 +46,11 @@ function recoverPassword() {
   showLoading();
   const email = form.email().value;
   firebase.auth().sendPasswordResetEmail(email).then(() => {
-    console.log(email);
     hideLoading(); alert('Email enviado com sucesso!')
   })
     .catch((error) => {
       hideLoading();
       alert(getErrorMessage(error.code));
-      console.log(error.code);
     })
 }
 
@@ -41,8 +66,10 @@ function getErrorMessage(errorCode) {
       return 'Email já cadastrado';
     case 'auth/wrong-password':
       return 'Senha inválida';
+    case 'auth/invalid-credential':
+      return 'Credenciais inválidas';
     default:
-      return 'Erro desconhecido';
+      return 'Erro desconhecido ' + errorCode;
   }
 }
 
@@ -58,16 +85,15 @@ function toggleEmailErrors() {
 }
 
 function togglePasswordErrors() {
-  const password = form.password();
+  const password = form.password().value;
   form.passwordRequiredError().style.display = password ? "none" : "block";
-  form.passwordMinLengthError().style.display = validatePassword(password) ? "none" : "block";
+  form.passwordMinLengthError().style.display = !password || validatePassword(password) ? "none" : "block";
 }
 
 function toggleButtonDisable() {
   const email = form.email().value;
   const password = form.password().value;
   const emailValid = validateEmail(email);
-  console.log(email, password);
   const passwordValid = validatePassword(password);
   form.recoverPasswordButton().disabled = !emailValid;
   form.loginButton().disabled = !emailValid || !passwordValid;
