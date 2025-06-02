@@ -13,9 +13,16 @@
     <script src="home.js"></script>
   </head>
   <body>
-    <h1>Home</h1>
-    <p>Seja bem-vindo ao controle de gastos</p>
+    <button
+      type="button"
+      class="clear-button"
+      onclick="logout()"
+      id="logoutButton"
+    >
+      Sair
+    </button>
+    <ol id="transactions"></ol>
 
-    <button type="button" onclick="logout()" id="logoutButton"></button>
+    <button class="fab fixed bottom right">+</button>
   </body>
 </html>
