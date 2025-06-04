@@ -8,9 +8,12 @@ function logout() {
 findTransaction();
 
 function findTransaction() {
-  setTimeout(() => {
-    addTransactionToScreen(fakeTransactions);
-  }, 1000);
+  firebase.firestore().collection('transactions').get().then(snapshot => {
+    const trasactions = snapshot.docs.map(doc => doc.data())
+
+    addTransactionToScreen(trasactions);
+  }
+  )
 }
 
 function addTransactionToScreen(transactions) {
@@ -51,36 +54,3 @@ function formatMoney(money) {
   return `${money.currency} ${money.value.toFixed(2).replace('.', ',')}`;
 
 }
-const fakeTransactions = [{
-  id: '1',
-  type: 'expense',
-  date: '01/06/2025',
-  money: {
-    currency: 'R$',
-    value: 30,
-  },
-  transactionType: 'Alimentação',
-  description: 'Almoço no restaurante',
-}, {
-  id: '2',
-  type: 'income',
-  date: '01/06/2025',
-  money: {
-    currency: 'R$',
-    value: 2000,
-  },
-  transactionType: 'Salário',
-  description: 'Pagamento do mês 5',
-}, {
-  id: '3',
-  type: 'expense',
-  date: '01/06/2025',
-  money: {
-    currency: 'R$',
-    value: 70,
-  },
-  transactionType: 'Mensalidade',
-  description: 'Pagamento Disneyplus, Spotify e plano de celular',
-},
-
-]
