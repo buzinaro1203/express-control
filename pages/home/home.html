@@ -9,21 +9,24 @@
     <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
+    <script src="../../utils/loading.js"></script>
     <script src="../../utils/firebase-init.js"></script>
     <script src="../../utils/auth-guard.js"></script>
     <script src="home.js"></script>
   </head>
   <body>
-    <button
-      type="button"
-      class="clear-button"
-      onclick="logout()"
-      id="logoutButton"
-    >
-      Sair
-    </button>
+    <header>
+      <button
+        type="button"
+        class="clear-button"
+        onclick="logout()"
+        id="logoutButton"
+      >
+        Sair
+      </button>
+    </header>
     <ol id="transactions"></ol>
 
-    <button class="fab fixed bottom right">+</button>
+    <button onclick="newTransaction()" class="fab fixed bottom right">+</button>
   </body>
 </html>

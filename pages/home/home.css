@@ -1,14 +1,3 @@
-body {
-  margin: 0;
-  background-color: rgb(15, 211, 111);
-  height: 100vh;
-}
-header {
-  text-align: right;
-}
-header button {
-  width: auto;
-}
 ol {
   list-style-type: none;
   padding: 0;

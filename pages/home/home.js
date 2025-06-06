@@ -1,21 +1,30 @@
-function logout() {
-  firebase.auth().signOut().then(() => {
-    window.location.href = '../../index.html';
-  }).catch((error) => {
-    alert(error.message);
-  });
-}
-findTransaction();
-
-function findTransaction() {
-  firebase.firestore().collection('transactions').get().then(snapshot => {
-    const trasactions = snapshot.docs.map(doc => doc.data())
-
-    addTransactionToScreen(trasactions);
+//chama a função findTransaction quando o usuário é autenticado
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    findTransaction(user);
   }
-  )
-}
+});
 
+//pega os dados do usuário autenticado e busca as transações no Firestore
+function findTransaction(user) {
+  showLoading();
+  firebase.firestore()
+    .collection('transactions')
+    .where('user.UID', '==', user.uid)
+    .orderBy('date', 'desc')
+    .get()
+    .then(snapshot => {
+      hideLoading();
+      const trasactions = snapshot.docs.map(doc => doc.data())
+
+      addTransactionToScreen(trasactions);
+    }
+    ).catch(error => {
+      hideLoading();
+      alert(error.message);
+    });
+}
+//adiciona as transações na tela
 function addTransactionToScreen(transactions) {
   const oderedList = document.getElementById('transactions');
 
@@ -34,7 +43,7 @@ function addTransactionToScreen(transactions) {
     const type = document.createElement('p');
     type.innerHTML = transactions.transactionType;
     li.appendChild(type);
-    if (transactions.transactionType) {
+    if (transactions.description) {
       const description = document.createElement('p');
       description.innerHTML = transactions.description;
       li.appendChild(description);
@@ -46,6 +55,20 @@ function addTransactionToScreen(transactions) {
   });
 }
 
+function logout() {
+  firebase.auth().signOut().then(() => {
+    window.location.href = '../../index.html';
+  }).catch((error) => {
+    alert(error.message);
+  });
+}
+
+function newTransaction() {
+  window.location.href = '../transaction/transaction.html';
+}
+
+
+//funções de formatação de data e dinheiro
 function formatDate(date) {
   return new Date(date).toLocaleDateString("pt-BR");
 }

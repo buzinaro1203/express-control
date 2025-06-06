@@ -1,3 +1,16 @@
+body {
+  margin: 0;
+  background-color: rgb(15, 211, 111);
+  height: 100vh;
+}
+
+header {
+  text-align: right;
+}
+
+header button {
+  width: auto;
+}
 .centralize {
   display: flex;
   justify-content: center;
@@ -20,9 +33,14 @@ form {
   width: 300px;
 }
 input,
-button {
+button,
+select {
   padding: 10px;
   width: -webkit-fill-available;
+}
+
+input[type="radio"] {
+  width: auto;
 }
 
 button {
